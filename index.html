@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flixora - Your Entertainment Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B35;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --purple: #A685E2;
+            --pink: #FF6B9D;
+            --dark: #1a1a2e;
+            --darker: #16162a;
+            --light: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--darker) 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: 2px solid rgba(78, 205, 196, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+        }
+
+        .search-bar input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .upload-btn {
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--pink));
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255, 107, 53, 0.5);
+        }
+
+        /* Ad Space */
+        .ad-space {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(78, 205, 196, 0.1));
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px dashed rgba(255, 230, 109, 0.3);
+        }
+
+        .ad-space h3 {
+            color: var(--accent);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Categories */
+        .categories {
+            display: flex;
+            gap: 1rem;
+            padding: 2rem 0;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) rgba(255, 255, 255, 0.1);
+        }
+
+        .category-btn {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            color: #fff;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--secondary), var(--purple));
+            border-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(78, 205, 196, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 500px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 2rem 0;
+            background: linear-gradient(135deg, var(--purple), var(--pink));
+        }
+
+        .hero-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 3rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .play-btn {
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--pink));
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 107, 53, 0.6);
+        }
+
+        /* Content Grid */
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 3rem 0 1.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .content-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.3);
+            border-color: var(--primary);
+        }
+
+        .card-thumbnail {
+            position: relative;
+            height: 180px;
+            background: linear-gradient(135deg, var(--purple), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            overflow: hidden;
+        }
+
+        .card-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 107, 53, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover .play-overlay {
+            opacity: 1;
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 20px solid #fff;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 5px;
+        }
+
+        .card-info {
+            padding: 1.2rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .card-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: linear-gradient(135deg, var(--secondary), var(--purple));
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* Image Gallery */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .image-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            aspect-ratio: 1;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.3s ease;
+        }
+
+        .image-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .image-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            transform: translateY(100%);
+            transition: all 0.3s ease;
+        }
+
+        .image-card:hover .image-overlay {
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(22, 22, 42, 0.95);
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+            border-top: 2px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--dark);
+            border-radius: 20px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            border: 2px solid var(--primary);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            background: var(--pink);
+            transform: rotate(90deg);
+        }
+
+        .video-player {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+            }
+
+            .categories {
+                padding: 1rem 0;
+            }
+
+            .nav {
+                flex-direction: column;
+            }
+
+            .search-bar {
+                max-width: 100%;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.1s; }
+        .content-card:nth-child(2) { animation-delay: 0.2s; }
+        .content-card:nth-child(3) { animation-delay: 0.3s; }
+        .content-card:nth-child(4) { animation-delay: 0.4s; }
+        .content-card:nth-child(5) { animation-delay: 0.5s; }
+        .content-card:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <div class="logo">FLIXORA</div>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="🔍 Search videos, images, creators...">
+                </div>
+                <button class="upload-btn" onclick="alert('Upload feature - Connect your video hosting service!')">📤 Upload</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Ad Space (Top Banner) -->
+        <div class="ad-space">
+            <h3>💰 Advertisement Space - 728x90 Banner</h3>
+            <p>Google AdSense / Other Ad Network Code Here</p>
+        </div>
+
+        <!-- Categories -->
+        <div class="categories">
+            <button class="category-btn active" data-category="all">🔥 All</button>
+            <button class="category-btn" data-category="trending">📈 Trending</button>
+            <button class="category-btn" data-category="comedy">😂 Comedy</button>
+            <button class="category-btn" data-category="music">🎵 Music</button>
+            <button class="category-btn" data-category="education">📚 Education</button>
+            <button class="category-btn" data-category="gaming">🎮 Gaming</button>
+            <button class="category-btn" data-category="tech">💻 Tech</button>
+            <button class="category-btn" data-category="lifestyle">🌟 Lifestyle</button>
+            <button class="category-btn" data-category="sports">⚽ Sports</button>
+        </div>
+
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Welcome to Flixora!</h1>
+                <p>Discover amazing videos, stunning images, and endless entertainment</p>
+                <button class="play-btn">▶ Start Watching</button>
+            </div>
+        </div>
+
+        <!-- Trending Videos -->
+        <h2 class="section-title">🔥 Trending Videos</h2>
+        <div class="content-grid" id="videoGrid">
+            <div class="content-card" onclick="openVideo('Sample Video 1')">
+                <div class="card-thumbnail">
+                    🎬
+                    <div class="play-overlay">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Amazing Tutorial</div>
+                    <div class="card-meta">
+                        <span>👁 125K views</span>
+                        <span>⏱ 12:45</span>
+                    </div>
+                    <span class="card-badge">Education</span>
+                </div>
+            </div>
+
+            <div class="content-card" onclick="openVideo('Sample Video 2')">
+                <div class="card-thumbnail" style="background: linear-gradient(135deg, #FF6B9D, #FFE66D);">
+                    🎵
+                    <div class="play-overlay">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Top Music Hits 2024</div>
+                    <div class="card-meta">
+                        <span>👁 2.5M views</span>
+                        <span>⏱ 3:30</span>
+                    </div>
+                    <span class="card-badge">Music</span>
+                </div>
+            </div>
+
+            <div class="content-card" onclick="openVideo('Sample Video 3')">
+                <div class="card-thumbnail" style="background: linear-gradient(135deg, #4ECDC4, #A685E2);">
+                    😂
+                    <div class="play-overlay">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Funny Moments Compilation</div>
+                    <div class="card-meta">
+                        <span>👁 890K views</span>
+                        <span>⏱ 8:15</span>
+                    </div>
+                    <span class="card-badge">Comedy</span>
+                </div>
+            </div>
+
+            <div class="content-card" onclick="openVideo('Sample Video 4')">
+                <div class="card-thumbnail" style="background: linear-gradient(135deg, #FF6B35, #4ECDC4);">
+                    🎮
+                    <div class="play-overlay">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Epic Gaming Highlights</div>
+                    <div class="card-meta">
+                        <span>👁 1.2M views</span>
+                        <span>⏱ 15:20</span>
+                    </div>
+                    <span class="card-badge">Gaming</span>
+                </div>
+            </div>
+
+            <div class="content-card" onclick="openVideo('Sample Video 5')">
+                <div class="card-thumbnail" style="background: linear-gradient(135deg, #FFE66D, #FF6B9D);">
+                    💻
+                    <div class="play-overlay">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Tech Review 2024</div>
+                    <div class="card-meta">
+                        <span>👁 450K views</span>
+                        <span>⏱ 10:05</span>
+                    </div>
+                    <span class="card-badge">Tech</span>
+                </div>
+            </div>
+
+            <div class="content-card" onclick="openVideo('Sample Video 6')">
+                <div class="card-thumbnail" style="background: linear-gradient(135deg, #A685E2, #FF6B35);">
+                    ⚽
+                    <div class="play-overlay">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Best Goals of the Month</div>
+                    <div class="card-meta">
+                        <span>👁 3.1M views</span>
+                        <span>⏱ 5:45</span>
+                    </div>
+                    <span class="card-badge">Sports</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Space (Mid Banner) -->
+        <div class="ad-space">
+            <h3>💰 Advertisement Space - 970x250 Billboard</h3>
+            <p>Premium Ad Space for Higher Revenue</p>
+        </div>
+
+        <!-- Popular Images -->
+        <h2 class="section-title">📸 Popular Images</h2>
+        <div class="image-grid">
+            <div class="image-card">
+                <div class="card-thumbnail" style="background: linear-gradient(135deg, #FF6B35, #FFE66D);">
+                    🖼️
+                </div>
+                <div class="image-overlay">
+                    <div class="card-title">Beautiful Sunset</div>
+                    <div class="card-meta">
+                        <span>❤️ 12K likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-card">
+                <div class="card-thumbnail" style="background: linear-gradient(135deg, #4ECDC4, #A685E2);">
+                    🌄
+                </div>
+                <div class="image-overlay">
+                    <div class="card-title">Mountain View</div>
+                    <div class="card-meta">
+                        <span>❤️ 8.5K likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-card">
+                <div class="card-thumbnail" style="background: linear-gradient(135deg, #FF6B9D, #4ECDC4);">
+                    🏖️
+                </div>
+                <div class="image-overlay">
+                    <div class="card-title">Beach Paradise</div>
+                    <div class="card-meta">
+                        <span>❤️ 15K likes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="image-card">
+                <div class="card-thumbnail" style="background: linear-gradient(135deg, #A685E2, #FFE66D);">
+                    🌃
+                </div>
+                <div class="image-overlay">
+                    <div class="card-title">City Lights</div>
+                    <div class="card-meta">
+                        <span>❤️ 20K likes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ad Space (Bottom Banner) -->
+        <div class="ad-space">
+            <h3>💰 Advertisement Space - Responsive Display Ad</h3>
+            <p>Optimize for Mobile & Desktop Traffic</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About Flixora</h3>
+                    <ul class="footer-links">
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                        <li><a href="#press">Press</a></li>
+                        <li><a href="#blog">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#safety">Safety Center</a></li>
+                        <li><a href="#guidelines">Community Guidelines</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#cookies">Cookie Policy</a></li>
+                        <li><a href="#copyright">Copyright Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#facebook">Facebook</a></li>
+                        <li><a href="#twitter">Twitter</a></li>
+                        <li><a href="#instagram">Instagram</a></li>
+                        <li><a href="#youtube">YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Flixora. All rights reserved. Made with ❤️ for creators worldwide.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div class="modal" id="videoModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <div class="video-player" id="videoPlayer" style="display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+                📹
+            </div>
+            <h2 id="videoTitle" style="margin: 1rem 0;">Video Title</h2>
+            <div class="card-meta" style="margin-bottom: 1rem;">
+                <span>👁 Views</span>
+                <span>❤️ Likes</span>
+                <span>💬 Comments</span>
+            </div>
+            <p style="color: rgba(255,255,255,0.7); line-height: 1.6;">
+                This is where your video description will appear. You can add details about the video, 
+                creator information, and relevant links. Integrate with YouTube API or your own video hosting service.
+            </p>
+            <div class="ad-space" style="margin-top: 2rem;">
+                <h3>💰 In-Video Advertisement</h3>
+                <p>Ad code here for monetization</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.content-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                if (title.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Category filter
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        categoryBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Filter logic would go here
+                console.log('Filter by:', btn.dataset.category);
+            });
+        });
+
+        // Video modal
+        function openVideo(title) {
+            const modal = document.getElementById('videoModal');
+            const videoTitle = document.getElementById('videoTitle');
+            videoTitle.textContent = title;
+            modal.classList.add('active');
+            
+            // Here you would load the actual video using YouTube embed or your video source
+            // Example: document.getElementById('videoPlayer').innerHTML = '<iframe src="..."></iframe>';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('videoModal');
+            modal.classList.remove('active');
+        }
+
+        // Close modal on outside click
+        document.getElementById('videoModal').addEventListener('click', (e) => {
+            if (e.target.id === 'videoModal') {
+                closeModal();
+            }
+        });
+
+        // Add smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        console.log('🎉 Flixora is ready! Add your video/image sources and ad codes to start earning!');
+    </script>
+</body>
+</html>
